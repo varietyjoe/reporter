@@ -3,9 +3,10 @@ import { getHubSpotClient } from "@/lib/hubspot/client";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const client = getHubSpotClient();
     if (!client) {
       return NextResponse.json(
@@ -21,7 +22,7 @@ export async function PATCH(
       return NextResponse.json({ error: "No properties to update" }, { status: 400 });
     }
 
-    const result = await client.updateMeeting(params.id, properties);
+    const result = await client.updateMeeting(id, properties);
     return NextResponse.json({ result });
   } catch (error) {
     console.error("Failed to update meeting:", error);

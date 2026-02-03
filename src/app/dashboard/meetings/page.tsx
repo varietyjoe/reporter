@@ -6,6 +6,7 @@ import { useFilters } from "@/contexts/FilterContext";
 import type { HubSpotMeeting } from "@/types";
 
 interface MeetingsResponse {
+  error?: string;
   results: HubSpotMeeting[];
   owners: Array<{ id: string; email: string; firstName: string; lastName: string; userId?: number }>;
   total: number;

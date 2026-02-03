@@ -9,6 +9,10 @@ export type MetricType =
   | "meetings_booked"
   | "meetings_held"
   | "meetings_no_show"
+  | "meetings_canceled"
+  | "meetings_qual_advanced"
+  | "meetings_qual_sold"
+  | "meetings_disqualified"
   | "deals_created"
   | "deals_advanced"
   | "deals_won"
@@ -45,6 +49,7 @@ export interface HubSpotEngagement {
     contactIds: string[];
   };
   metadata: Record<string, unknown>;
+  properties?: Record<string, string | null | undefined>;
 }
 
 export interface HubSpotSequence {
@@ -85,6 +90,7 @@ export interface HubSpotMeeting {
     hs_meeting_start_time: string;
     hs_meeting_end_time: string;
     hubspot_owner_id: string | null;
+    hs_engagement_id?: string | number | null;
     hs_activity_type?: string;
     hs_analytics_source?: string | null;
     hs_analytics_source_data_1?: string | null;
@@ -149,6 +155,7 @@ export interface DailyMetrics {
   deals_lost: number;
   revenue: number;
   mrr: number;
+  asp: number;
 }
 
 // Quota configuration

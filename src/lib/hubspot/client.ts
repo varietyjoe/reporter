@@ -887,7 +887,12 @@ export class HubSpotClient {
     let hasMore = true;
 
     while (hasMore) {
-      const filters: Array<{ propertyName: string; operator: string; value: string }> = [];
+      const filters: Array<{
+        propertyName: string;
+        operator: string;
+        value?: string;
+        values?: string[];
+      }> = [];
 
       // Filter by enrollment status
       if (options?.activeOnly) {
@@ -1056,7 +1061,12 @@ export class HubSpotClient {
     let hasMore = true;
 
     while (hasMore) {
-      const filters: Array<{ propertyName: string; operator: string; value: string }> = [];
+      const filters: Array<{
+        propertyName: string;
+        operator: string;
+        value?: string;
+        values?: string[];
+      }> = [];
 
       if (options?.ownerIds && options.ownerIds.length > 0) {
         filters.push({

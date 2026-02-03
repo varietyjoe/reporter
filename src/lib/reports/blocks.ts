@@ -12,6 +12,10 @@ const METRIC_LABELS: Record<MetricType, string> = {
   meetings_booked: "meetings booked",
   meetings_held: "meetings held",
   meetings_no_show: "no-shows",
+  meetings_canceled: "canceled",
+  meetings_qual_advanced: "qualified (advance)",
+  meetings_qual_sold: "qualified (sold)",
+  meetings_disqualified: "disqualified",
   deals_created: "deals created",
   deals_advanced: "deals advanced",
   deals_won: "deals won",
@@ -23,7 +27,7 @@ const METRIC_LABELS: Record<MetricType, string> = {
 
 // Get metric value from daily metrics
 function getMetricValue(metrics: DailyMetrics, metric: MetricType): number {
-  return (metrics as Record<string, number>)[metric] ?? 0;
+  return (metrics as unknown as Record<string, number>)[metric] ?? 0;
 }
 
 // Format metric value based on type

@@ -281,7 +281,15 @@ export async function GET(request: NextRequest) {
           const meetingDetailsProps =
             (meetingDetails as { properties?: Record<string, unknown> })?.properties || null;
           engagementDebug.sampleMeetingDetails = meetingDetailsProps;
-          directEngagementId = meetingDetailsProps?.hs_engagement_id || null;
+          const rawEngagementId =
+            (meetingDetailsProps as Record<string, unknown> | null)?.hs_engagement_id;
+          if (typeof rawEngagementId === "string" && rawEngagementId.trim()) {
+            directEngagementId = rawEngagementId.trim();
+          } else if (rawEngagementId !== undefined && rawEngagementId !== null) {
+            directEngagementId = String(rawEngagementId);
+          } else {
+            directEngagementId = null;
+          }
         } catch {
           directEngagementId = null;
         }

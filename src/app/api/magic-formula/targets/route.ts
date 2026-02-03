@@ -45,22 +45,29 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "All target fields must be numbers" }, { status: 400 });
     }
 
-    const target = await prisma.magicFormulaTarget.upsert({
-      where: { scope_teamId_ownerId: { scope: "global", teamId: null, ownerId: null } },
-      update: {
-        meetingsTarget,
-        qualOppsTarget,
-        conversionsTarget,
-        mrrPerConversion,
-      },
-      create: {
-        scope: "global",
-        meetingsTarget,
-        qualOppsTarget,
-        conversionsTarget,
-        mrrPerConversion,
-      },
+    const existingTarget = await prisma.magicFormulaTarget.findFirst({
+      where: { scope: "global", teamId: null, ownerId: null },
     });
+
+    const target = existingTarget
+      ? await prisma.magicFormulaTarget.update({
+          where: { id: existingTarget.id },
+          data: {
+            meetingsTarget,
+            qualOppsTarget,
+            conversionsTarget,
+            mrrPerConversion,
+          },
+        })
+      : await prisma.magicFormulaTarget.create({
+          data: {
+            scope: "global",
+            meetingsTarget,
+            qualOppsTarget,
+            conversionsTarget,
+            mrrPerConversion,
+          },
+        });
 
     return NextResponse.json({ target });
   } catch (error) {
