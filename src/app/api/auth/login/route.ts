@@ -8,6 +8,14 @@ export async function POST(request: NextRequest) {
     const password = String(body?.password || "");
     const expected = process.env.APP_AUTH_PASSWORD || "";
 
+    // Debug logging
+    console.log("Login attempt:", {
+      passwordLength: password.length,
+      expectedLength: expected.length,
+      passwordChars: Array.from(password).map(c => c.charCodeAt(0)),
+      expectedChars: Array.from(expected).map(c => c.charCodeAt(0)),
+    });
+
     if (!expected || password !== expected) {
       return NextResponse.json({ error: "Invalid password" }, { status: 401 });
     }
